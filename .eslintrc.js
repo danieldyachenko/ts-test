@@ -21,7 +21,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0, //использование операторов require
     '@typescript-eslint/explicit-module-boundary-types': 0, //Требовать явного возврата и типов аргументов
     'no-console': 1, //запретить использование `console`
-    'no-extra-parens': 1, //запретить ненужные скобки
+    'no-extra-parens': 0, //запретить ненужные скобки
     'array-callback-return': 1, //применять операторы return в обратных вызовах методов массива
     'default-case': 1, //требовать регистры default в операторах switch
     eqeqeq: 1, // требуют использования `===` и `! ==`
@@ -35,6 +35,7 @@ module.exports = {
     'no-multi-spaces': 1, //запретить использование нескольких пробелов
     'no-unused-expressions': 1, //запретить неиспользуемые выражения
     'require-await': 2, //запретить async функции, у которых нет выражения await
+    '@typescript-eslint/ban-types': 0
   },
   reportUnusedDisableDirectives: true, //сообщить о неиспользованных eslint-disable комментариях
 };

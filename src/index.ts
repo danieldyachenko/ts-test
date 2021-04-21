@@ -16,17 +16,6 @@ function makeObservable<T extends {}>(target: T) {
     },
   };
 
-  const descriptor = {
-    writable: false,
-    configurable: false,
-    enumerable: false,
-  };
-
-  Object.defineProperties(observableTarget, {
-    handlers: descriptor,
-    observe: descriptor,
-  });
-
   return new Proxy(observableTarget, {
     set(target, property, value) {
       const success = Reflect.set(target, property, value);
@@ -42,7 +31,7 @@ const user: Observable<User> = makeObservable<User>({
   name: 'Даниил',
 });
 
-user.observe((key: string, value: string) => {
+user.observe((key: string, value: string): void => {
   console.log(`SET ${key}=${value}`); // Как-то реагируем на изменения
 });
 
@@ -50,19 +39,19 @@ user.name = 'Андрей'; // SET name=Андрей
 
 //Задачка
 
-function reverse(s: string, k: number): string | Function {
-  if (k === 0) {
-    return s;
+function reverse(str: string, calls: number = str.length): string {
+  if (calls === 0) {
+    return str;
   }
 
-  const arr: string[] = s.split('');
+  const arr = str.split('');
   arr.shift();
-  arr.splice(k - 1, 0, s[0]);
-  const newS = arr.join('');
-  const newK = --k;
+  arr.splice(calls - 1, 0, str[0]);
+  str = arr.join('');
 
-  return reverse(newS, newK);
+  --calls;
+
+  return reverse(str, calls);
 }
 
-const newStr = reverse('qwert', 5);
-console.log(newStr);
+const reverseStr = reverse('1234'); // 4321

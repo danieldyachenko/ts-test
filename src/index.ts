@@ -16,11 +16,16 @@ function makeObservable<T extends {}>(target: T) {
     },
   };
 
-  Object.defineProperty(observableTarget, 'handlers', {
+  const descriptor = {
     writable: false,
     configurable: false,
-    enumerable: false
-  })
+    enumerable: false,
+  };
+
+  Object.defineProperties(observableTarget, {
+    handlers: descriptor,
+    observe: descriptor,
+  });
 
   return new Proxy(observableTarget, {
     set(target, property, value) {
@@ -43,4 +48,21 @@ user.observe((key: string, value: string) => {
 
 user.name = 'Андрей'; // SET name=Андрей
 
+//Задачка
 
+function reverse(s: string, k: number): string | Function {
+  if (k === 0) {
+    return s;
+  }
+
+  const arr: string[] = s.split('');
+  arr.shift();
+  arr.splice(k - 1, 0, s[0]);
+  const newS = arr.join('');
+  const newK = --k;
+
+  return reverse(newS, newK);
+}
+
+const newStr = reverse('qwert', 5);
+console.log(newStr);

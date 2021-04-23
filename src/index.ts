@@ -16,6 +16,12 @@ function makeObservable<T extends {}>(target: T) {
     },
   };
 
+  Object.defineProperty(observableTarget, 'handlers', {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+  });
+
   return new Proxy(observableTarget, {
     set(target, property, value) {
       const success = Reflect.set(target, property, value);
@@ -36,22 +42,6 @@ user.observe((key: string, value: string): void => {
 });
 
 user.name = 'Андрей'; // SET name=Андрей
+user.name = 'Никита'; // SET name=Никита
 
-//Задачка
 
-function reverse(str: string, calls: number = str.length): string {
-  if (calls === 0) {
-    return str;
-  }
-
-  const arr = str.split('');
-  arr.shift();
-  arr.splice(calls - 1, 0, str[0]);
-  str = arr.join('');
-
-  --calls;
-
-  return reverse(str, calls);
-}
-
-const reverseStr = reverse('1234'); // 4321

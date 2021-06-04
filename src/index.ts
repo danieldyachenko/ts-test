@@ -1,47 +1,64 @@
-interface User {
-  name: string;
+interface CharObj {
+  [key: string]: number;
 }
 
-type Observable<T extends {}> = T & {
-  handlers: Array<Function>;
-  observe: (handler: Function) => void;
-};
+function convertStr(str: string): string {
+  // Разбиваем строку на массив символов
+  const charArr: string[] = str.split('');
 
-function makeObservable<T extends {}>(target: T) {
-  const observableTarget: Observable<T> = {
-    ...target,
-    handlers: [],
-    observe(handler: Function) {
-      this.handlers.push(handler);
-    },
-  };
+  // Инициализируем объект для подсчета символов
+  const charObj: CharObj = {};
 
-  Object.defineProperty(observableTarget, 'handlers', {
-    enumerable: false,
-    configurable: false,
-    writable: false,
+  // Считаем символы, записывая каждый символ как свойство, увеличивая его значение
+  charArr.forEach(char => {
+    if (char in charObj) {
+      charObj[char]++;
+    } else {
+      charObj[char] = 1;
+    }
   });
 
-  return new Proxy(observableTarget, {
-    set(target, property, value) {
-      const success = Reflect.set(target, property, value);
-      if (success) {
-        observableTarget.handlers.forEach(handler => handler(property, value));
-      }
-      return success;
-    },
-  });
+  // Инициализируем строку для преобразования в новый формат
+  let convertedStr = '';
+
+  // Преобразовываем объект с символами в строку
+  for (const prop in charObj) {
+    convertedStr += prop + charObj[prop];
+  }
+
+  return convertedStr;
 }
 
-const user: Observable<User> = makeObservable<User>({
-  name: 'Даниил',
-});
+console.log(convertStr('aaabbdcccccf'));
 
-user.observe((key: string, value: string): void => {
-  console.log(`SET ${key}=${value}`); // Как-то реагируем на изменения
-});
+function getUniqueChar(str: string): string {
+  // Разбиваем строку на массив символов
+  const charArr: string[] = str.split('');
 
-user.name = 'Андрей'; // SET name=Андрей
-user.name = 'Никита'; // SET name=Никита
+  // Инициализируем объект для подсчета символов
+  const charObj: CharObj = {};
+
+  // Считаем символы, записывая каждый символ как свойство, увеличивая его значение
+  charArr.forEach(char => {
+    if (char in charObj) {
+      charObj[char]++;
+    } else {
+      charObj[char] = 1;
+    }
+  });
+
+  // Инициализируем строку для преобразования в новый формат
+  let uniqueStr = '';
+
+  for (const prop in charObj) {
+    if (charObj[prop] === 1) {
+      uniqueStr += prop;
+    }
+  }
+
+  return uniqueStr
+}
+
+console.log(getUniqueChar('asdaaaaasf'));
 
 

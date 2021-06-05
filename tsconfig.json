@@ -3,7 +3,7 @@
     "outDir": "public", // Выходной каталог
     "sourceMap": true, // Исходные карты
     "noImplicitAny": true, // Отмена любого типа
-    "module": "ESNext", // Модульная система
+    "module": "commonjs", // Модульная система
     "target": "ESNext",
     "allowSyntheticDefaultImports": true, // Разрешить импорты по умолчанию
     "experimentalDecorators": true, // Включить экспериментальный синтаксис декораторов

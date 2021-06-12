@@ -2,7 +2,7 @@ import { convertStr } from './convertStr';
 import { getUniqueChar } from './getUniqueChar';
 import getMinNumber from './getMinNumber';
 
-console.log(convertStr('aaabbdcccccfaa'));
+console.log(convertStr('aaabbdcccccf'));
 
 console.log(getUniqueChar('asdaaaaasf'));
 

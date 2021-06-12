@@ -19,6 +19,7 @@ export function getUniqueChar(str: string): string {
   // Инициализируем строку для преобразования в новый формат
   let uniqueStr = '';
 
+  // Преобразовываем объект символов в строку с уникальными символами
   for (const prop in charObj) {
     if (charObj[prop] === 1) {
       uniqueStr += prop;

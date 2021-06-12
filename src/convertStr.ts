@@ -2,23 +2,19 @@ export function convertStr(str: string): string {
   // Разбиваем строку на массив символов
   const charArr: string[] = str.split('');
 
-  let convertedStr = '';
-  let countCurrentChar = 1;
+  return charArr.reduce((accumulator, currentValue, index, array) => {
+    // Обрезаем строку, начиная с указанного индекса
+    const substrFromIndex = str.slice(index);
 
-  charArr.forEach((char, index, arr) => {
-    const prevChar = arr[index - 1];
+    // Производим поиск первой подстроки с повторяющемся символами
+    const match = substrFromIndex.match(new RegExp(`${currentValue}+`));
 
-    if (char === prevChar) {
-      countCurrentChar++;
-    } else if (prevChar) {
-      convertedStr += prevChar + countCurrentChar;
-      countCurrentChar = 1
-
-      if (arr.length - 1 === index) {
-        convertedStr += char + countCurrentChar;
-      }
+    /* Если текущий символ не равен предыдущему, то конвертируем совпадение в
+    новый формат. Например 'aaa' станет 'a3' */
+    if (match && currentValue !== array[index - 1]) {
+      accumulator += match[0][0] + match[0].length;
     }
-  })
 
-  return convertedStr
+    return accumulator;
+  }, '');
 }
